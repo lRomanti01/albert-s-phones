@@ -1,0 +1,34 @@
+@import "tailwindcss";
+@plugin "@midudev/tailwind-animations";
+
+html, body {
+  background-color: #000000;
+  color: white;
+  font-family: 'Open Sans', sans-serif;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+:root {
+  --primary: #4f6378;
+  --secondary-color: #f59e0b;
+  --text-color: #ffffff;
+}
+
+.text-primary {
+  color: #4174D7;
+}
+
+.bg-primary {
+  background-color: #4174D7;
+}
+
+.text-secondary {
+  color: #f59e0b;
+}
+
+.bg-secondary {
+  background-color: #f59e0b;
+}
