@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import http from "../../utils/http";
 
-export const useGetPhones = () => {
+export const useGetSoldPhones = () => {
   const [loading, setLoading] = useState(false);
   const [soldPhones, setSoldPhones] = useState([]);
 
   useEffect(() => {
-    getPhones();
+    getSoldPhones();
   }, []);
 
-  const getPhones = async () => {
+  const getSoldPhones = async () => {
     try {
       setLoading(true);
       const response = await http.get(`phone/getSoldPhones`);

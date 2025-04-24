@@ -22,6 +22,7 @@ const SellPhoneDialog = ({ open, onClose, phone, createSoldPhone }) => {
       client: clientName,
       amount: quantity,
       total: phone.price * quantity,
+      price: phone.price
     //   user: session._id,
     };
     createSoldPhone(data);

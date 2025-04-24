@@ -23,9 +23,10 @@ import {
 
 // import { useRouter } from "next/navigation";
 import { Spinner } from "../general/Spinner";
+import { useLogIn } from "../../hooks/api/useAuth";
 
 const initialData = {
-  auth: "",
+  email: "",
   password: "",
 };
 
@@ -33,8 +34,9 @@ export default function SignInModal({ onChange }) {
   const [loginData, setLoginData] = useState(initialData);
   const [errors, setErrors] = useState(initialData);
 
-  const [showAlert] = useAlert();
-  // const [loading, load] = useLogIn(loginData);
+  const [loading, load] = useLogIn(loginData);
+  const { showAlert } = useAlert();
+
   // const router = useRouter();
 
   const handleLogInInputChange = (e, name) => {
@@ -45,14 +47,14 @@ export default function SignInModal({ onChange }) {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!loginData.auth) {
-      newErrors.auth = "Email or Username is required.";
+    if (!loginData.email) {
+      newErrors.email = "Email es requerido.";
     }
 
     if (!loginData.password) {
-      newErrors.password = "Password is required.";
+      newErrors.password = "Contraseña es requerido.";
     } else if (loginData.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters.";
+      newErrors.password = "La contraseña debe tener al menos 6 caracteres.";
     }
 
     setErrors(newErrors);
@@ -62,22 +64,22 @@ export default function SignInModal({ onChange }) {
   const onSubmit = async () => {
     if (!validateForm()) return;
 
-    // const { response, error } = await load();
-    // if (error) {
-    //   showAlert(
-    //     "error",
-    //     error.message || "The server may be experiencing problems"
-    //   );
-    // } else if (response) {
-    //   showAlert("success", response.data.message);
-    //   setLoginData(initialData);
-    //   router.push("dashboard");
-    // }
+    const { response, error } = await load();
+    if (error) {
+      showAlert(
+        "error",
+        error.message || "The server may be experiencing problems"
+      );
+    } else if (response) {
+      showAlert("success", response.data.mensaje);
+      setLoginData(initialData);
+      router.push("dashboard");
+    }
   };
 
   return (
     <div className="flex flex-col h-full w-[90%] sm:w-[70%] md:w-[50%] max-w-[400px] p-10 text-center bg-white/90 rounded-2xl animate-zoom-in animate-duration-300">
-      {/* <Spinner loading={loading} message="Signing in..." /> */}
+      <Spinner loading={loading} message="Signing in..." />
 
       <div className="flex flex-col flex-grow justify-evenly w-full gap-4">
         <h2 className="font-bold text-3xl text-primary">Inicia Sesión</h2>
@@ -87,13 +89,13 @@ export default function SignInModal({ onChange }) {
             {/* Email */}
             <div>
               <TextField
-                id="auth"
+                id="email"
                 placeholder="Email"
                 variant="outlined"
                 required
                 className="w-full rounded-xl"
-                value={loginData.auth}
-                onInput={(e) => handleLogInInputChange(e, "auth")}
+                value={loginData.email}
+                onInput={(e) => handleLogInInputChange(e, "email")}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -101,10 +103,10 @@ export default function SignInModal({ onChange }) {
                     </InputAdornment>
                   ),
                 }}
-                error={!!errors.auth}
+                error={!!errors.email}
               />
-              {errors.auth && (
-                <FormHelperText error>{errors.auth}</FormHelperText>
+              {errors.email && (
+                <FormHelperText error>{errors.email}</FormHelperText>
               )}
             </div>
 
@@ -154,4 +156,3 @@ export default function SignInModal({ onChange }) {
     </div>
   );
 }
- 

@@ -1,9 +1,8 @@
-import { useState } from "react";
-// import { useAuthProvider } from "@/context/AuthContext";
+import React, { useState } from "react";
 import http from "../../utils/http";
 import { useAuthProvider } from "../../context/AuthContext";
 
-export const useLogIn = (body) => {
+export const  useLogIn = (body) => {
   const [loading, setLoading] = useState(false);
   const { setSessionState } = useAuthProvider();
 
@@ -26,7 +25,7 @@ export const useLogIn = (body) => {
         error: {
           response: error.response.data,
           message:
-            error.response?.data.message || "An unexpected error occurred",
+            error.response?.data.mensaje || "An unexpected error occurred",
         },
       };
     } finally {

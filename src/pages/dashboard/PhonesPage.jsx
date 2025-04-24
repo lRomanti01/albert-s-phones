@@ -31,8 +31,7 @@ const initialData = {
 };
 
 export const PhonesPage = () => {
-  // const [phones, setPhones] = useState([]);
-  const [open, setOpen] = useState(false);
+   const [open, setOpen] = useState(false);
   const [editingPhone, setEditingPhone] = useState(null);
   const [imageDialogOpen, setImageDialogOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
@@ -42,6 +41,7 @@ export const PhonesPage = () => {
 
   const [sellDialogOpen, setSellDialogOpen] = useState(false);
   const [phoneToSell, setPhoneToSell] = useState(null);
+  const [errors, setErrors] = useState({});
 
   const {
     phones,
@@ -70,16 +70,27 @@ export const PhonesPage = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = () => {
-    if (editingPhone) {
-      updatePhone(form._id, form);
-    } else {
-      createPhone(form);
-      setForm(initialData);
-      setEditingPhone(false);
-    }
-    handleClose();
-  };
+ const handleSubmit = () => {
+   const newErrors = {};
+   const requiredFields = ["brand", "model", "price", "amount"];
+
+   requiredFields.forEach((field) => {
+     if (!form[field]) newErrors[field] = "Este campo es obligatorio";
+   });
+
+   setErrors(newErrors);
+
+   if (Object.keys(newErrors).length > 0) return;
+
+   if (editingPhone) {
+     updatePhone(form._id, form);
+   } else {
+     createPhone(form);
+     setForm(initialData);
+     setEditingPhone(false);
+   }
+   handleClose();
+ };
 
   const confirmDelete = (id) => {
     setPhoneToDelete(id);
@@ -121,7 +132,6 @@ export const PhonesPage = () => {
       </Button>
 
       <div style={{ height: 400, minWidth: 600 }}>
-        {/* <DataGrid rows={phones} columns={columns} getRowId={(row) => row.id} /> */}
         <PhoneTable
           phones={phones}
           loading={loadingTable}
@@ -141,13 +151,13 @@ export const PhonesPage = () => {
             {[
               ["brand", "Marca"],
               ["model", "Modelo"],
+              ["price", "Precio"],
+              ["amount", "Cantidad"],
               ["ram", "RAM"],
               ["storage", "Almacenamiento"],
               ["screen", "Tamaño de screen"],
               ["processor", "Procesador"],
               ["battery", "mAh de batería"],
-              ["price", "Precio"],
-              ["amount", "Cantidad"],
             ].map(([name, label], index) => (
               <TextField
                 key={index}
@@ -156,8 +166,19 @@ export const PhonesPage = () => {
                 name={name}
                 value={form[name]}
                 onChange={handleChange}
+                required={["brand", "model", "price", "amount"].includes(name)}
+                error={!!errors[name]}
+                helperText={errors[name] || ""}
               />
             ))}
+
+            <TextField
+              fullWidth
+              label="URL de Imagen"
+              name="image"
+              value={form.image}
+              onChange={handleChange}
+            />
 
             <TextField
               fullWidth
@@ -167,14 +188,6 @@ export const PhonesPage = () => {
               onChange={handleChange}
               multiline
               rows={3}
-            />
-
-            <TextField
-              fullWidth
-              label="URL de Imagen"
-              name="image"
-              value={form.image}
-              onChange={handleChange}
             />
           </Grid>
         </DialogContent>

@@ -1,33 +1,31 @@
+import React from "react";
 import { createBrowserRouter, Navigate } from "react-router";
 import { AuthPage, PhonesPage, UsersPage, SoldPhonesPage } from "../pages";
-import { DashboardLayout } from "../layouts/DashboardLayout";
-import React from "react";
 import { ProtectedRoute } from "../pages/dashboard/ProtectedRoute";
 
 export const menuRoutes = [
   {
     to: "/phones",
-    icon: "fa-solid fa-spell-check",
+    icon: "fa-solid fa-mobile-screen-button", // Ícono de celular
     title: "Celulares",
     description: "Manejo de celulares",
     component: <PhonesPage />,
   },
   {
     to: "/soldphones",
-    icon: "fa-solid fa-spell-check",
+    icon: "fa-solid fa-cart-arrow-down", // Ícono de venta
     title: "Celulares vendidos",
     description: "Chequeo de celulares vendidos",
     component: <SoldPhonesPage />,
   },
   {
     to: "/users",
-    icon: "fa-solid fa-spell-check",
+    icon: "fa-solid fa-users", // Ícono de usuarios
     title: "Usuarios",
     description: "Manejo de usuarios",
     component: <UsersPage />,
   },
 ];
-
 
 export const router = createBrowserRouter([
   {
