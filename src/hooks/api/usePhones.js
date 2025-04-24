@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import http from "../../utils/http";
+import { useAlert } from "../useAlert";
 
 export const useGetPhones = () => {
   const [loadingTable, setLoadingTable] = useState(false);
   const [loadingModal, setLoadingModal] = useState(false);
   const [phones, setPhones] = useState([]);
+  const {showAlert} = useAlert();
 
   useEffect(() => {
     getPhones();
@@ -82,6 +84,34 @@ export const useGetPhones = () => {
     }
   };
 
+  const createSoldPhone = async (body) => {
+    try {
+      setLoadingModal(true);
+      const response = await http.post("phone/createSoldPhones", {
+        ...body,
+      });
+      if (response.data.ok) {
+        showAlert("success", "Teléfono vendido con éxito");
+        setPhones((prevPhones) =>
+          prevPhones.map((phone) =>
+            phone._id === body.phone
+              ? {
+                  ...phone,
+                  amount: phone.amount - body.amount, // ← aquí restamos la cantidad vendida
+                }
+              : phone
+          )
+        );
+      }
+    } catch (error) {
+      console.error(
+        error.response?.data.message || "An unexpected error occurred"
+      );
+    } finally {
+      setLoadingModal(false);
+    }
+  };
+
   return {
     loadingTable,
     phones,
@@ -89,6 +119,7 @@ export const useGetPhones = () => {
     updatePhone,
     loadingModal,
     deletePhone,
+    createSoldPhone,
   };
 };
 

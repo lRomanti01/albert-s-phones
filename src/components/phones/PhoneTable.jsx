@@ -53,7 +53,7 @@ export const PhoneTable = ({
   loading,
   handleOpen,
   handleDelete,
-  handleImageClick,
+  openSellDialog,
 }) => {
   return (
     <TableContainer component={Paper}>
@@ -98,7 +98,10 @@ export const PhoneTable = ({
                 <StyledTableCell>{phone.price}</StyledTableCell>
                 <StyledTableCell>{phone.amount}</StyledTableCell>
                 <StyledTableCell>
-                  <IconButton color="primary" onClick={() => handleOpen(phone)}>
+                  <IconButton
+                    color="primary"
+                    onClick={() => openSellDialog(phone)}
+                  >
                     <AssignmentIcon />
                   </IconButton>
                   <IconButton color="primary" onClick={() => handleOpen(phone)}>

@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { PhoneTable } from "../../components/phones/PhoneTable";
 import { useGetPhones } from "../../hooks/api/usePhones";
+import SellPhoneDialog from "../../components/phones/SellPhoneDialog";
 
 const initialData = {
   brand: "",
@@ -39,6 +40,9 @@ export const PhonesPage = () => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [phoneToDelete, setPhoneToDelete] = useState(null);
 
+  const [sellDialogOpen, setSellDialogOpen] = useState(false);
+  const [phoneToSell, setPhoneToSell] = useState(null);
+
   const {
     phones,
     loadingTable,
@@ -46,6 +50,7 @@ export const PhonesPage = () => {
     loadingModal,
     updatePhone,
     deletePhone,
+    createSoldPhone,
   } = useGetPhones();
 
   const handleOpen = (phone = null) => {
@@ -86,9 +91,20 @@ export const PhonesPage = () => {
     setDeleteDialogOpen(false);
     setPhoneToDelete(null);
   };
+
   const handleImageClick = (imgUrl) => {
     setSelectedImage(imgUrl);
     setImageDialogOpen(true);
+  };
+
+  const openSellDialog = (phone) => {
+    setPhoneToSell(phone);
+    setSellDialogOpen(true);
+  };
+
+  const closeSellDialog = () => {
+    setPhoneToSell(null);
+    setSellDialogOpen(false);
   };
 
   return (
@@ -112,6 +128,7 @@ export const PhonesPage = () => {
           handleOpen={handleOpen}
           handleDelete={confirmDelete}
           handleImageClick={handleImageClick}
+          openSellDialog={openSellDialog}
         />
       </div>
 
@@ -220,6 +237,13 @@ export const PhonesPage = () => {
           />
         </DialogContent>
       </Dialog>
+
+      <SellPhoneDialog
+        open={sellDialogOpen}
+        onClose={closeSellDialog}
+        phone={phoneToSell}
+        createSoldPhone={createSoldPhone}
+      />
     </div>
   );
 };

@@ -1,9 +1,7 @@
 import { toast } from "react-toastify";
 
-type UseAlertType = [(type: string, message: string) => void];
-
-export const useAlert = (): UseAlertType => {
-  const showAlert = (type: string, message: string) => {
+export const useAlert = () => {
+  const showAlert = (type, message) => {
     if (type === "success") {
       toast.success(message);
     } else if (type === "error") {
@@ -15,5 +13,5 @@ export const useAlert = (): UseAlertType => {
     }
   };
 
-  return [showAlert];
+  return {showAlert};
 };
