@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const http = axios.create({
-  baseURL: "http://localhost:3005/api/"
+  baseURL: "https://albert-s-phone-api-production.up.railway.app/api/",
 });
 
 // Interceptor to add the token to the request headers

@@ -2,6 +2,8 @@ import React from "react";
 import { createBrowserRouter, Navigate } from "react-router";
 import { AuthPage, PhonesPage, UsersPage, SoldPhonesPage } from "../pages";
 import { ProtectedRoute } from "../pages/dashboard/ProtectedRoute";
+import { useAuthProvider } from "../context/AuthContext";
+import { RedirectIfAuthenticated } from "../components/pages/RedirectIfAuthenticated";
 
 export const menuRoutes = [
   {
@@ -23,7 +25,7 @@ export const menuRoutes = [
     icon: "fa-solid fa-users", // Ícono de usuarios
     title: "Usuarios",
     description: "Manejo de usuarios",
-    component: <UsersPage />,
+    component: <UsersPage />
   },
 ];
 
@@ -46,6 +48,6 @@ export const router = createBrowserRouter([
   },
   {
     path: "signin",
-    element: <AuthPage />,
+    element: <RedirectIfAuthenticated />,
   },
 ]);

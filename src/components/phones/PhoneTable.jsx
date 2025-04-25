@@ -54,6 +54,7 @@ export const PhoneTable = ({
   handleOpen,
   handleDelete,
   openSellDialog,
+  handleImageClick,
 }) => {
   return (
     <TableContainer component={Paper}>

@@ -2,13 +2,15 @@ import { useState } from "react";
 import { Outlet, useNavigate } from "react-router";
 import { SideBar } from "../components/sidebar/SideBar";
 import { FiLogOut } from "react-icons/fi"; // ícono de logout
+import { useAuthProvider } from "../context/AuthContext";
 
 export const DashboardLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navigate = useNavigate();
+  const { removeSession } = useAuthProvider(); 
 
-  const handleLogout = () => {
-    localStorage.clear(); // Borra todo el localStorage
+  const handleLogout = async () => {
+    removeSession();
     navigate("/signin"); // Redirige al login
   };
 
@@ -25,7 +27,7 @@ export const DashboardLayout = () => {
         {/* Botón de logout */}
         <button
           onClick={handleLogout}
-          className="absolute top-5 right-5 flex items-center gap-2 text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded transition"
+          className="absolute top-5 right-5 cursor-pointer flex items-center gap-2 text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded transition"
         >
           <FiLogOut size={20} />
           <span className="hidden sm:inline">Cerrar sesión</span>
@@ -37,7 +39,7 @@ export const DashboardLayout = () => {
             className="text-white bg-gray-700 px-4 py-2 rounded hover:bg-gray-600 transition"
             onClick={() => setIsSidebarOpen(true)}
           >
-            ☰ Menú
+            ☰ Menú 
           </button>
         </div>
 

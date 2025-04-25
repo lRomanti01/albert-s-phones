@@ -9,7 +9,7 @@ import React, {
 
 const defaultState = {
   session: null,
-  setSessionState: (userSession: any) => {},
+  setSessionState: (userSession) => {},
   removeSession: () => {},
 };
 
@@ -17,7 +17,7 @@ export const AuthContext = createContext(defaultState);
 
 export function AuthProvider({ children }) {
   const [session, setSession] = useState(null);
-
+  
   // Load session from localStorage on mount (client-side only)
   useEffect(() => {
     if (typeof window !== "undefined") {

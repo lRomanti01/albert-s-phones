@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { SidebarMenuItem } from "./SidebarMenuItem";
-import { menuRoutes } from "../../router/router";
+import { menuRoutes } from "../../router/menuRouter.jsx";
 
 export const SideBar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   return (

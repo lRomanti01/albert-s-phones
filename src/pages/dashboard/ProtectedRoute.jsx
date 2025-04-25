@@ -1,15 +1,17 @@
 import React from "react";
-import { Navigate, Outlet } from "react-router";
+import { Navigate, Outlet, useLocation } from "react-router";
+import { useAuthProvider } from "../../context/AuthContext";
 import { DashboardLayout } from "../../layouts/DashboardLayout";
 
 export const ProtectedRoute = () => {
-  const isAuthenticated = !!localStorage.getItem("token"); // o "user", según tu lógica
+  const { session } = useAuthProvider();
+  const location = useLocation();
 
-//   return isAuthenticated ? (
-//     <DashboardLayout />
-//   ) : (
-//     <Navigate to="/signin" replace />
-//   );\
+  if (!session) {
+    // No está autenticado: redirige a /signin
+    return <Navigate to="/signin" state={{ from: location }} replace />;
+  }
 
-return <DashboardLayout />
+  // Usuario autenticado: puede continuar
+  return <DashboardLayout />;
 };

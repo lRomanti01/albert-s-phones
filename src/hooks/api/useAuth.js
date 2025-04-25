@@ -37,7 +37,7 @@ export const  useLogIn = (body) => {
 };
 
 export const useSignUp = (body) => {
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
   const { setSessionState } = useAuthProvider();
 
   async function load() {
@@ -56,7 +56,7 @@ export const useSignUp = (body) => {
         error: {
           response: error.response.data,
           message:
-            error.response?.data.message || "An unexpected error occurred",
+            error.response?.data.mensaje || "An unexpected error occurred",
         },
       };
     } finally {

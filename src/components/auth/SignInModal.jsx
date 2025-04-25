@@ -21,9 +21,9 @@ import {
   OutlinedInput,
 } from "@mui/material";
 
-// import { useRouter } from "next/navigation";
 import { Spinner } from "../general/Spinner";
 import { useLogIn } from "../../hooks/api/useAuth";
+import { useNavigate } from "react-router";
 
 const initialData = {
   email: "",
@@ -36,8 +36,7 @@ export default function SignInModal({ onChange }) {
 
   const [loading, load] = useLogIn(loginData);
   const { showAlert } = useAlert();
-
-  // const router = useRouter();
+  const navigate = useNavigate();
 
   const handleLogInInputChange = (e, name) => {
     const { value } = e.target;
@@ -53,8 +52,6 @@ export default function SignInModal({ onChange }) {
 
     if (!loginData.password) {
       newErrors.password = "Contraseña es requerido.";
-    } else if (loginData.password.length < 6) {
-      newErrors.password = "La contraseña debe tener al menos 6 caracteres.";
     }
 
     setErrors(newErrors);
@@ -73,7 +70,7 @@ export default function SignInModal({ onChange }) {
     } else if (response) {
       showAlert("success", response.data.mensaje);
       setLoginData(initialData);
-      router.push("dashboard");
+      navigate("/");
     }
   };
 

@@ -12,7 +12,7 @@ export const AuthPage = () => {
   };
 
   return (
-    <div className="min-h-screen w-full relative flex flex-col justify-center items-center bg-gradient-to-br  from-blue-800 via-bue-500 to-blue-300">
+    <div className="min-h-screen w-full relative flex flex-col justify-center items-center bg-gradient-to-br  from-gray-900 via-gray-500 to-gray-300">
       <div
         className={`flex flex-col justify-center items-center mb-4 gap-2 px-5`}
       >
@@ -24,7 +24,7 @@ export const AuthPage = () => {
           Bienvenido a la mejor tienda de celulares del mundo
         </span>
       </div>
-      
+
       {auth ? (
         <SignInModal onChange={changeAuth} />
       ) : (

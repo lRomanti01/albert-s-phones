@@ -15,9 +15,9 @@ import { FaUser } from "react-icons/fa";
 import { FaLevelUpAlt } from "react-icons/fa";
 
 // HOOKS
-// import { useSignUp } from "@/hooks/api/useAuth";
 import { useAlert } from "../../hooks/useAlert";
 import { Spinner } from "../general/Spinner";
+import { useSignUp } from "../../hooks/api/useAuth";
 
 const initialData = {
   name: "",
@@ -28,13 +28,14 @@ const initialData = {
 
 
 export default function SignUpModal({ onChange }) {
+
   const [signUpData, setSignUpData] = useState(initialData);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
 
   // Hooks
-  const [showAlert] = useAlert();
-  // const [loading, load] = useSignUp(signUpData);
+  const {showAlert} = useAlert();
+  const [loading, load] = useSignUp(signUpData);
 
   const validateInput = ()=> {
     const newErrors = {};
@@ -86,22 +87,22 @@ export default function SignUpModal({ onChange }) {
       return;
     }
 
-    // const { response, error } = await load();
-    // if (error) {
-    //   showAlert(
-    //     "error",
-    //     error.message || "The server may be experiencing problems"
-    //   );
-    // } else if (response) {
-    //   showAlert("success", response.data.message);
-    //   setSignUpData(initialData);
-    //   setConfirmPassword("");
-    // }
+    const { response, error } = await load();
+    if (error) {
+      showAlert(
+        "error",
+        error.message || "The server may be experiencing problems"
+      );
+    } else if (response) {
+      showAlert("success", response.data.message);
+      setSignUpData(initialData);
+      setConfirmPassword("");
+    }
   };
 
   return (
     <div className="flex flex-col h-full w-[90%] sm:w-[70%] md:w-[60%] lg:w-[50%] xl:w-[35%] p-4 md:p-10 bg-white/90 rounded-2xl animate-zoom-in animate-duration-300">
-      {/* <Spinner loading={loading} message="Signing up..." /> */}
+      <Spinner loading={loading} message="Registrandose..." />
 
       <div className="flex flex-col flex-grow justify-evenly w-full gap-4">
         <h2 className="font-bold text-3xl text-primary">Registrate</h2>

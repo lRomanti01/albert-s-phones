@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import http from "../../utils/http";
 import { useAlert } from "../useAlert";
 
@@ -6,7 +6,7 @@ export const useUsers = () => {
   const [loadingTable, setLoadingTable] = useState(false);
   const [loadingModal, setLoadingModal] = useState(false);
   const [users, setUsers] = useState([]);
-  const {showAlert} = useAlert();
+  const { showAlert } = useAlert();
 
   useEffect(() => {
     getUsers();
@@ -33,9 +33,10 @@ export const useUsers = () => {
       setLoadingModal(true);
       const response = await http.delete(`user/deleteUser/${id}`);
       if (response.data.ok) {
-        // setUsers((prevPhones) =>
-        //   prevPhones.filter((phone) => phone._id !== id)
-        // );
+        setUsers((prevPhones) =>
+          prevPhones.filter((phone) => phone._id !== id)
+        );
+        showAlert("success", "Usuario eleminado corrrectamente");
       }
     } catch (error) {
       console.error(
